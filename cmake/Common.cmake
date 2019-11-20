@@ -9,10 +9,12 @@ cmake_minimum_required(VERSION 3.0)
 set(CMAKE_BUILD_TYPE Release CACHE STRING "Debug/Release")
 
 # We need at least C++17 to run
-#set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Compile with concepts
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts")
 
 # Treat warnings as errors
 set(CUSTOM_WARNING_LEVEL -Wall -Wextra -pedantic -Werror)
