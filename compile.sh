@@ -53,7 +53,8 @@ do
 		fi
 
 		# Compile
-		RUN $B $O
+		time RUN $B $O
+		echo
 
 		cd -
 		echo
