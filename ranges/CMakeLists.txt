@@ -17,7 +17,18 @@ if(RANGES)
 	add_definitions(-DRANGES_${RANGES})
 
 	# Ranges v3
-	include_directories(${CMAKE_SOURCE_DIR}/external/range-v3/include)
+	if("${RANGES}" MATCHES "V3")
+		message("Using Eric Niebler's range-v3 library")
+		include_directories(${CMAKE_SOURCE_DIR}/external/range-v3/include)
+	elseif("${RANGES}" MATCHES "NANO")
+		message("Using Tristan Brindle's NanoRange library")
+		include_directories(${CMAKE_SOURCE_DIR}/external/NanoRange/include)
+	elseif("${RANGES}" MATCHES "CMCSTL2")
+		message("Using Casey Carter's CMCSTL2 range library")
+		include_directories(${CMAKE_SOURCE_DIR}/external/cmcstl2/include)
+	else()
+		message("Unknown range library (${RANGES})")
+	endif()
 endif(RANGES)
 
 # Add an executable built from a single source file

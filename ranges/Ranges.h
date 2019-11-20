@@ -13,12 +13,28 @@ namespace cppmaryland {
 	namespace Ranges = std::experimental::ranges;
 } // namespace cppmaryland
 
-#elif RANGES_NIEBLER
+#elif RANGES_V3
 #define RANGES_ENABLED
 //#include <range/v3/algorithm.hpp>
 #include <range/v3/all.hpp>
 namespace cppmaryland {
 	namespace Ranges = ranges;
+} // namespace cppmaryland
+
+#elif RANGES_NANO
+#define RANGES_ENABLED
+#include <nanorange.hpp>
+namespace cppmaryland {
+	namespace Ranges = nano;
+} // namespace cppmaryland
+
+#elif RANGES_CMCSTL2
+#define RANGES_ENABLED
+#include <experimental/ranges/range>
+#include <experimental/ranges/algorithm>
+#include <experimental/ranges/iterator>
+namespace cppmaryland {
+	namespace Ranges = std::experimental::ranges;
 } // namespace cppmaryland
 
 #else
