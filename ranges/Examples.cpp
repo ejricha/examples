@@ -36,13 +36,14 @@ vector<Type> GenerateVector(size_t numElements)
 void ShowEvenElements(const vector<Type>& v, const string& name)
 {
 #ifdef RANGES_ENABLED
-	using namespace Ranges;
-	std::cout << "Ranges are enabled\n";
-	const auto vEven = v | views::filter(IsEven) | ranges::to_vector;
+	cout << "Ranges are enabled\n";
+	const auto view = v | Ranges::views::filter(IsEven);
+	vector<Type> vEven;
+	Ranges::copy_if(v.begin(), v.end(), Ranges::back_inserter(vEven), IsEven);
 	PrintAbbrev(vEven, name);
 #else
 	vector<Type> vEven(v.size());
-	std::cout << "Ranges are disabled\n";
+	cout << "Ranges are disabled\n";
 	auto last = copy_if(v.cbegin(), v.cend(), vEven.begin(), IsEven);
 	vEven.erase(last, vEven.cend());
 	PrintAbbrev(vEven, name);
