@@ -14,9 +14,7 @@ OPTIONS[make]="-j4 -s -S"
 OPTIONS[ninja]="-j4"
 
 # Build with the following options for ranges
-#RANGES="NONE EXPERIMENTAL NIEBLER CMCSTL2 NANO"
-#RANGES="NIEBLER"
-RANGES="NONE NIEBLER"
+RANGES="NONE V3 NANO CMCSTL2"
 
 # Function to run, and exit on failure
 RUN() {
