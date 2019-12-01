@@ -43,21 +43,66 @@ void ShowView()
 }
 
 // Only show the even elements of a vector
-void ShowEvenElements(const std::vector<Number>& v, const std::string& name)
+void ShowElementsEven(const std::vector<Number>& v, const std::string& name)
 {
-	// Reserve potentially more elements than we need
-	std::vector<Number> vEven;
-	vEven.reserve(v.size());
+	std::vector<Number> vResult;
+	vResult.reserve(v.size());
 #ifdef RANGES_ENABLED
-	std::cout << "Ranges are enabled\n";
-	auto view = v | Ranges::views::filter(IsEven);
-	Ranges::for_each(view, [&vEven](const Number n) { vEven.push_back(n); });
+	auto theView = v | Ranges::views::filter(IsEven);
+	Ranges::for_each(theView, [&vResult](const Number n) { vResult.push_back(n); });
 #else
-	std::cout << "Ranges are disabled\n";
+	// Reserve potentially more elements than we need
+	vResult.reserve(v.size());
+	auto last = copy_if(v.cbegin(), v.cend(), vResult.begin(), IsEven);
+	vResult.erase(last, vResult.cend());
+#endif // RANGES_ENABLED
+	PrintAbbrev(vResult, name);
+}
+
+// Only show the elements of a vector divisible by 2, 5, and 7
+void ShowElementDivisibleBy70(const std::vector<Number>& v, const std::string& name)
+{
+#ifdef RANGES_ENABLED
+	std::vector<Number> vResult;
+	vResult.reserve(v.size());
+	auto theView = v | Ranges::views::filter(IsEven)
+		| Ranges::views::filter(IsDivisibleByFive)
+		| Ranges::views::filter(IsDivisibleBySeven);
+	Ranges::for_each(theView, [&vResult](const Number n) { vResult.push_back(n); });
+#else
+	// Reserve potentially more elements than we need
+	std::vector<Number> vStep1(v.size());
+	auto last = copy_if(v.cbegin(), v.cend(), vStep1.begin(), IsEven);
+	vStep1.erase(last, vStep1.cend());
+	std::vector<Number> vStep2(vStep1.size());
+	last = copy_if(vStep1.begin(), last, vStep2.begin(), IsDivisibleByFive);
+	vStep2.erase(last, vStep2.cend());
+	std::vector<Number> vResult(vStep2.size());
+	last = copy_if(vStep2.begin(), last, vResult.begin(), IsDivisibleBySeven);
+	vResult.erase(last, vResult.cend());
+#endif // RANGES_ENABLED
+	PrintAbbrev(vResult, name);
+}
+
+// Only show the elements of a vector divisible by 2, 5, and 7
+void ShowElementsEvenSquared(const std::vector<Number>& v, const std::string& name)
+{
+	std::vector<Number> vResult;
+#ifdef RANGES_ENABLED
+# ifdef RANGES_CMCSTL2
+	std::cout << "Ranges::views::transform does not work for CMCSTL2\n";
+# else
+	auto theView = v | Ranges::views::filter(IsEven) | Ranges::views::transform(Square);
+	Ranges::for_each(theView, [&vResult](const Number n) { vResult.push_back(n); });
+# endif // RANGES_CMCSTL2
+#else
+	// Reserve potentially more elements than we need
+	std::vector<Number> vEven(v.size());
 	auto last = copy_if(v.cbegin(), v.cend(), vEven.begin(), IsEven);
 	vEven.erase(last, vEven.cend());
+	vResult.reserve(v.size());
 #endif // RANGES_ENABLED
-	PrintAbbrev(vEven, name);
+	PrintAbbrev(vResult, name);
 }
 
 // Show a delta of two times, or one time and the current time
@@ -75,12 +120,14 @@ double ShowDuration(const std::chrono::time_point<ClockType>& t1, const std::chr
 // Show a few ways of iterating a vector
 void ExampleVector()
 {
-	const std::string name = "ShowEven";
+	const std::string operation = "ShowElementDivisibleBy70";
 	auto timer = std::chrono::high_resolution_clock::now();
 
 	// Open the output file
 	std::ofstream fout("results_" + Name + ".dat");
-	fout << "#\tN\tOrig\tShowEven\n";
+	fout << "# N\t" << operation << "\n";
+
+	auto v = GenerateVector(0);
 	
 	// Loop increasing the number of elements
 	for (size_t numElements = 100; numElements < 1'000'000'000; numElements *= 3)
@@ -88,16 +135,13 @@ void ExampleVector()
 		fout << numElements << "\t";
 
 		timer = std::chrono::high_resolution_clock::now();
-		const auto v = GenerateVector(numElements);
+		v = GenerateVector(numElements);
 		PrintAbbrev(v, "Original");
-		fout << ShowDuration(timer) << "\t";
+		ShowDuration(timer);
 
 		timer = std::chrono::high_resolution_clock::now();
-		ShowEvenElements(v, name);
-		ShowDuration(timer);
+		ShowElementDivisibleBy70(v, operation);
 		fout << ShowDuration(timer) << "\n";
-
-		std::cout << std::endl;
 	}
 }
 
