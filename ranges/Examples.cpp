@@ -17,15 +17,12 @@
 namespace cppmaryland {
 
 //using namespace Ranges;
-using Type = int;
-
-// Constant defining the number of elements to generate
-static const size_t NumElementsToGenerate { 100'000'000 };
+using Number = int;
 
 // Helper function to generate a vector of the given size
-std::vector<Type> GenerateVector(size_t numElements)
+std::vector<Number> GenerateVector(size_t numElements)
 {
-	std::vector<Type> v(numElements);
+	std::vector<Number> v(numElements);
 
 	// Generator function does not use ranges (for now)
 	iota(v.begin(), v.end(), 1);
@@ -45,22 +42,16 @@ void ShowView()
 }
 
 // Only show the even elements of a vector
-void ShowEvenElements(const std::vector<Type>& v, const std::string& name)
+void ShowEvenElements(const std::vector<Number>& v, const std::string& name)
 {
+	// Reserve potentially more elements than we need
+	std::vector<Number> vEven;
+	vEven.reserve(v.size());
 #ifdef RANGES_ENABLED
 	std::cout << "Ranges are enabled\n";
-	/*
-	const auto view = v | Ranges::views::filter(IsEven);
-	//auto vEven = view | Ranges::to<std::vector<Type>>(); // Only works for range-v3
-	//using namespace std::range;
-	std::vector<Type> vEven;
-	//Ranges::copy(view.begin(), view.end(), back_inserter(vEven));
-	Ranges::copy(view, back_inserter(vEven));
-	*/
-	std::vector<Type> vEven;
-	//Ranges::copy(Ranges::counted_iterator(v.begin(), 10), Ranges::default_sentinel, back_inserter(vEven));
+	auto view = v | Ranges::views::filter(IsEven);
+	Ranges::for_each(view, [&vEven](const Number n) { vEven.push_back(n); });
 #else
-	std::vector<Type> vEven(v.size());
 	std::cout << "Ranges are disabled\n";
 	auto last = copy_if(v.cbegin(), v.cend(), vEven.begin(), IsEven);
 	vEven.erase(last, vEven.cend());
@@ -82,19 +73,24 @@ void ShowDuration(const std::chrono::time_point<ClockType>& t1, const std::chron
 void ExampleVector()
 {
 	const std::string name = "ShowEven";
-	
 	auto timer = std::chrono::high_resolution_clock::now();
-	const auto v = GenerateVector(NumElementsToGenerate);
-	PrintAbbrev(v, "Original");
-	ShowDuration(timer);
+	
+	// Loop increasing the number of elements
+	for (size_t numElements = 10; numElements <= 100'000'000; numElements *= 10)
+	{
+		timer = std::chrono::high_resolution_clock::now();
+		const auto v = GenerateVector(numElements);
+		PrintAbbrev(v, "Original");
+		ShowDuration(timer);
 
-	timer = std::chrono::high_resolution_clock::now();
-	ShowEvenElements(v, name);
-	ShowDuration(timer);
+		timer = std::chrono::high_resolution_clock::now();
+		ShowEvenElements(v, name);
+		ShowDuration(timer);
 
-	timer = std::chrono::high_resolution_clock::now();
-	ShowView();
-	ShowDuration(timer);
+		timer = std::chrono::high_resolution_clock::now();
+		ShowView();
+		ShowDuration(timer);
+	}
 }
 
 } // namespace cppmaryland
