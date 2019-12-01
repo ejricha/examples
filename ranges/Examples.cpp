@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <iostream>
 #include <fstream>
+#include <functional>
 #include <iterator>
 #include <numeric>
 #include <vector>
@@ -17,8 +18,11 @@
 
 namespace cppmaryland {
 
-//using namespace Ranges;
+// We can easily change the vector element type
 using Number = int;
+
+// A function pointer
+using FunctionPointer = std::function<void(const std::vector<Number>&, const std::string&)>;
 
 // Helper function to generate a vector of the given size
 std::vector<Number> GenerateVector(size_t numElements)
@@ -60,7 +64,7 @@ void ShowElementsEven(const std::vector<Number>& v, const std::string& name)
 }
 
 // Only show the elements of a vector divisible by 2, 5, and 7
-void ShowElementDivisibleBy70(const std::vector<Number>& v, const std::string& name)
+void ShowElementsDivisibleBy70(const std::vector<Number>& v, const std::string& name)
 {
 #ifdef RANGES_ENABLED
 	std::vector<Number> vResult;
@@ -117,14 +121,13 @@ double ShowDuration(const std::chrono::time_point<ClockType>& t1, const std::chr
 	return durationSeconds;
 }
 
-// Show a few ways of iterating a vector
-void ExampleVector()
+// Run the specified fuction in a loop up to a billion times
+void LoopTests(const std::string& operation, FunctionPointer fn)
 {
-	const std::string operation = "ShowElementDivisibleBy70";
 	auto timer = std::chrono::high_resolution_clock::now();
 
 	// Open the output file
-	std::ofstream fout("results_" + Name + ".dat");
+	std::ofstream fout("results_" + Name + "_" + operation + ".dat");
 	fout << "# N\t" << operation << "\n";
 
 	auto v = GenerateVector(0);
@@ -140,9 +143,17 @@ void ExampleVector()
 		ShowDuration(timer);
 
 		timer = std::chrono::high_resolution_clock::now();
-		ShowElementDivisibleBy70(v, operation);
+		fn(v, operation);
 		fout << ShowDuration(timer) << "\n";
 	}
+}
+
+// Run the tests for the following functions
+void RunTests()
+{
+	LoopTests("Even", ShowElementsEven);
+	LoopTests("EvenThenSquared", ShowElementsEvenSquared);
+	LoopTests("DivisibleBy70", ShowElementsDivisibleBy70);
 }
 
 } // namespace cppmaryland
@@ -152,6 +163,6 @@ int main()
 {
 	using namespace cppmaryland;
 
-	ExampleVector();
+	RunTests();
 	return EXIT_SUCCESS;
 }
