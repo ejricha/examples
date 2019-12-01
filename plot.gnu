@@ -30,7 +30,7 @@ set key left top
 
 # Output to .png file
 set terminal pngcairo nocrop enhanced font "verdana,12"
-OPERATIONS = "Even EvenThenSquared DivisibleBy70"
+OPERATIONS = "Even EvenThenSquared DivisibleBy70 FastFilter"
 do for [O in OPERATIONS] {
 	fpng = sprintf("results_%s.png", O)
 	print("File is [%s]", fpng)
