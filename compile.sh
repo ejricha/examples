@@ -8,10 +8,10 @@ TOPDIR=`dirname $0`
 # Different options for make and ninja
 declare -A BUILDER
 BUILDER[make]="Unix Makefiles"
-BUILDER[ninja]="Ninja"
+#BUILDER[ninja]="Ninja"
 declare -A OPTIONS
 OPTIONS[make]="-j4 -s -S"
-OPTIONS[ninja]="-j4"
+#OPTIONS[ninja]="-j4"
 
 # Build with the following options for ranges
 RANGES="NONE V3 NANO CMCSTL2"
