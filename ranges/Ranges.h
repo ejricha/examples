@@ -3,6 +3,8 @@
 // Header file that includes the correct range library
 //  based on preprocessor variables
 
+#include <string>
+
 // Default is that ranges are disabled
 #undef RANGES_ENABLED
 
@@ -10,6 +12,7 @@
 #define RANGES_ENABLED
 #include <range/v3/all.hpp>
 namespace cppmaryland {
+	static const std::string Name = "V3";
 	namespace Ranges = ranges;
 } // namespace cppmaryland
 
@@ -17,6 +20,7 @@ namespace cppmaryland {
 #define RANGES_ENABLED
 #include <nanorange.hpp>
 namespace cppmaryland {
+	static const std::string Name = "NANO";
 	namespace Ranges = nano;
 } // namespace cppmaryland
 
@@ -25,12 +29,14 @@ namespace cppmaryland {
 #include <experimental/ranges/algorithm>
 #include <experimental/ranges/range>
 namespace cppmaryland {
+	static const std::string Name = "CMCSTL2";
 	namespace Ranges = std::experimental::ranges;
 } // namespace cppmaryland
 
 #else
 //namespace Ranges = std;
 namespace cppmaryland {
+	static const std::string Name = "NONE";
 } // namespace cppmaryland
 
 #endif // RANGES_*

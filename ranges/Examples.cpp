@@ -6,6 +6,7 @@
 #include <chrono>
 #include <iomanip>
 #include <iostream>
+#include <fstream>
 #include <iterator>
 #include <numeric>
 #include <vector>
@@ -60,13 +61,15 @@ void ShowEvenElements(const std::vector<Number>& v, const std::string& name)
 }
 
 // Show a delta of two times, or one time and the current time
+// Also return the time in seconds
 template <typename ClockType>
-void ShowDuration(const std::chrono::time_point<ClockType>& t1, const std::chrono::time_point<ClockType>& t2 = ClockType::now())
+double ShowDuration(const std::chrono::time_point<ClockType>& t1, const std::chrono::time_point<ClockType>& t2 = ClockType::now())
 {
 	using namespace std::chrono;
 
-	auto duration = duration_cast<microseconds>(t2 - t1);
-	std::cout << " (took " << std::fixed << std::setprecision(3) << duration.count() / 1'000'000.0 << " s)\n";
+	const auto durationSeconds = duration_cast<microseconds>(t2 - t1).count() / 1'000'000.;
+	std::cout << " (took " << std::fixed << std::setprecision(6) << durationSeconds << " s)\n";
+	return durationSeconds;
 }
 
 // Show a few ways of iterating a vector
@@ -74,22 +77,27 @@ void ExampleVector()
 {
 	const std::string name = "ShowEven";
 	auto timer = std::chrono::high_resolution_clock::now();
+
+	// Open the output file
+	std::ofstream fout("results_" + Name + ".dat");
+	fout << "#\tN\tOrig\tShowEven\n";
 	
 	// Loop increasing the number of elements
-	for (size_t numElements = 10; numElements <= 100'000'000; numElements *= 10)
+	for (size_t numElements = 100; numElements < 1'000'000'000; numElements *= 3)
 	{
+		fout << numElements << "\t";
+
 		timer = std::chrono::high_resolution_clock::now();
 		const auto v = GenerateVector(numElements);
 		PrintAbbrev(v, "Original");
-		ShowDuration(timer);
+		fout << ShowDuration(timer) << "\t";
 
 		timer = std::chrono::high_resolution_clock::now();
 		ShowEvenElements(v, name);
 		ShowDuration(timer);
+		fout << ShowDuration(timer) << "\n";
 
-		timer = std::chrono::high_resolution_clock::now();
-		ShowView();
-		ShowDuration(timer);
+		std::cout << std::endl;
 	}
 }
 
