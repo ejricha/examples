@@ -5,8 +5,8 @@
 # Requires version 3.0 of cmake
 cmake_minimum_required(VERSION 3.0)
 
-# Default to 
-set(CMAKE_BUILD_TYPE Release CACHE STRING "Debug/Release")
+# Default to
+set(CMAKE_BUILD_TYPE Release CACHE STRING "Debug/Release/RelWithDebInfo/MinSizeRel")
 
 # We need at least C++17 to run
 set(CMAKE_CXX_STANDARD 17)
@@ -36,3 +36,17 @@ macro(add_executable_cpp NAME)
 	message("Building ${BIN} from ${CPP}")
 	add_executable(${BIN} ${CPP})
 endmacro()
+
+# Change the default flags for different build types
+# Debug
+set(CMAKE_C_FLAGS_DEBUG "-Og -g3")
+set(CMAKE_CXX_FLAGS_DEBUG "-Og -g3")
+# RelWithDebInfo
+set(CMAKE_C_FLAGS_RELWITHDEBINFO "-O3 -g2 -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g2 -DNDEBUG")
+# Release
+set(CMAKE_C_FLAGS_RELEASE "-O3 -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
+# MinSizeRel
+set(CMAKE_C_FLAGS_MINSIZEREL "-Os -DNDEBUG")
+set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os -DNDEBUG")

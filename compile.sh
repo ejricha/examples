@@ -5,12 +5,14 @@
 
 TOPDIR=`dirname $0`
 
+BUILD="Release"
+
 # Different options for make and ninja
 declare -A BUILDER
 BUILDER[make]="Unix Makefiles"
 #BUILDER[ninja]="Ninja"
 declare -A OPTIONS
-OPTIONS[make]="-j4 -s -S"
+OPTIONS[make]="-j4 -s -S VERBOSE=1"
 #OPTIONS[ninja]="-j4"
 
 # Build with the following options for ranges
@@ -47,7 +49,7 @@ do
 		then	
 			mkdir -p $D
 			cd $D
-			RUN cmake .. -G"$S" -D RANGES="$R"
+			RUN cmake .. -G"$S" -D CMAKE_BUILD_TYPE=$BUILD -D RANGES="$R"
 		else
 			cd $D
 		fi
