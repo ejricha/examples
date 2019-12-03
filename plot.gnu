@@ -36,7 +36,7 @@ do for [O in OPERATIONS] {
 	fpng = sprintf("results_%s.png", O)
 	print("File is [%s]", fpng)
 	set output fpng
-	
+
 	i = 1
 	array f[4]
 	do for [R in "NONE V3 CMCSTL2 NANO"] {
@@ -51,3 +51,15 @@ do for [O in OPERATIONS] {
 		f[3] with linespoints linestyle 3 title "CMCSTL2", \
 		f[4] with linespoints linestyle 4 title "NanoRange"
 }
+
+# Also plot the compile times
+set output "compile_times.png"
+set title "Compile-time comparison of range libraries"
+set boxwidth 0.8
+set style fill solid
+unset logscale xy
+unset key
+unset xlabel
+unset yrange
+set yrange [0:]
+plot "compile_times.dat" using 0:2:xtic(1) with boxes, '' using 0:($2 + 0.5):2 with labels
