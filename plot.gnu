@@ -4,7 +4,6 @@
 # Print the results of all the *.dat files
 
 # Titles
-set title "Comparison of range libraries"
 set xlabel "Number of elements"
 set ylabel "Time taken"
 
@@ -32,6 +31,8 @@ set key left top
 set terminal pngcairo nocrop enhanced font "verdana,12"
 OPERATIONS = "Even EvenThenSquared DivisibleBy70 FastFilter"
 do for [O in OPERATIONS] {
+	newtitle = sprintf("Comparison of range libraries (%s)", O)
+	set title newtitle
 	fpng = sprintf("results_%s.png", O)
 	print("File is [%s]", fpng)
 	set output fpng
