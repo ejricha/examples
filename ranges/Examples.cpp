@@ -38,6 +38,17 @@ double ShowDuration(const std::chrono::time_point<ClockType>& t1, const std::chr
 
 #ifdef RANGES_ENABLED
 // Simple tests of iota
+void ShowIota0()
+{
+	for (auto e : Ranges::views::take(
+			Ranges::views::iota(17), 5
+			)
+		)
+	{
+		std::cout << " " << e;
+	}
+	// 17 18 19 20 21
+}
 void ShowIota1()
 {
 	for (auto e : Ranges::views::iota(17)
@@ -95,16 +106,12 @@ void ShowIota5()
 void SimpleTests()
 {
 #ifdef RANGES_ENABLED
-	ShowIota1();
-	std::cout << std::endl;
-	ShowIota2();
-	std::cout << std::endl;
-	ShowIota3();
-	std::cout << std::endl;
-	ShowIota4();
-	std::cout << std::endl;
-	//ShowIota5();
-	std::cout << std::endl;
+	std::cout << "0 : "; ShowIota0(); std::cout << std::endl;
+	std::cout << "1 : "; ShowIota1(); std::cout << std::endl;
+	std::cout << "2 : "; ShowIota2(); std::cout << std::endl;
+	std::cout << "3 : "; ShowIota3(); std::cout << std::endl;
+	std::cout << "4 : "; ShowIota4(); std::cout << std::endl;
+	//std::cout << "5 : "; ShowIota5(); std::cout << std::endl;
 #endif // RANGES_ENABLED
 }
 
