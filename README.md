@@ -2,7 +2,7 @@
 Examples for CppMaryland presentations
 
 # Installation
-To fetch range libraires, run the following script:
+To fetch range libraries, run the following script:
 ```shell
-./fetch_libraries.sh
+ranges/fetch_libraries.sh
 ```
