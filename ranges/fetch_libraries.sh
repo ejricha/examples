@@ -3,7 +3,9 @@
 #
 # Fetch all the available range libraries
 
-TO="external"
+# Get relative directory
+DIR=`dirname $0`
+TO="$DIR/external"
 RANGES_V3="https://github.com/ericniebler/range-v3.git"
 RANGES_NANO="https://github.com/tcbrindle/NanoRange.git"
 RANGES_CMCSTL2="https://github.com/CaseyCarter/cmcstl2.git"
