@@ -8,7 +8,7 @@ for D in build_${BUILDER}*
 do
 	echo "# $D"
 	echo
-	for F in $D/ranges/*.bin
+	for F in $D/src/*.bin
 	do
 		date
 		echo "[$F]"
