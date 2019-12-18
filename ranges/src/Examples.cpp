@@ -31,7 +31,7 @@ double ShowDuration(const std::chrono::time_point<ClockType>& t1, const std::chr
 {
 	using namespace std::chrono;
 
-	const auto durationSeconds = duration_cast<microseconds>(t2 - t1).count() / 1'000'000.;
+	const auto durationSeconds = static_cast<double>(duration_cast<microseconds>(t2 - t1).count()) / 1'000'000.;
 	std::cout << " (took " << std::fixed << std::setprecision(6) << durationSeconds << " s)\n";
 	return durationSeconds;
 }
