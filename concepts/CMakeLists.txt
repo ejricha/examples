@@ -9,7 +9,7 @@ include(${CMAKE_SOURCE_DIR}/../cmake/Common.cmake)
 project(ExampleRanges)
 
 # Add the top-level include directory
-include_directories(${CMAKE_SOURCE_DIR}/include)
+#include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Use the defined type of ranges
 if(RANGES)
