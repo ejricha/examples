@@ -130,7 +130,7 @@ std::vector<Number> GenerateVector(size_t numElements)
 void ShowView()
 {
 #ifdef RANGES_ENABLED
-    for (auto e : Ranges::views::iota(1) | Ranges::views::take(9))
+	for (auto e : Ranges::views::iota(1) | Ranges::views::take(9))
 	{
 		std::cout << e << ' ';
 	}
@@ -228,7 +228,7 @@ void LoopTests(const std::string& operation, FunctionPointer fn)
 	fout << "# N\t" << operation << "\n";
 
 	auto v = GenerateVector(0);
-	
+
 	// Loop increasing the number of elements
 	for (size_t numElements = 100; numElements < 1'000'000'000; numElements *= 3)
 	{
