@@ -17,7 +17,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts")
 
 # Treat warnings as errors
-set(CUSTOM_WARNING_LEVEL -Wall -Wextra -pedantic -Werror)
+set(CUSTOM_WARNING_LEVEL "-Wall -Wextra -pedantic -Werror -Wconversion -Wfloat-equal -Wswitch-default -Wformat=2 -Wmissing-include-dirs -Wdisabled-optimization -Wunused-result -Winvalid-pch")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CUSTOM_WARNING_LEVEL}")
 
 # Use colorful output by default
 option(COLOR_OUTPUT "Always produce ANSI-colored output (GNU/Clang only)." TRUE)
