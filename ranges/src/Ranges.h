@@ -10,7 +10,10 @@
 
 #if RANGES_V3
 #define RANGES_ENABLED
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
 #include <range/v3/all.hpp>
+#pragma GCC diagnostic pop
 namespace cppmaryland {
 	static const std::string Name = "V3";
 	namespace Ranges = ranges;
