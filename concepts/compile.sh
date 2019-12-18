@@ -10,10 +10,10 @@ BUILD="Release"
 # Different options for make and ninja
 declare -A BUILDER
 BUILDER[make]="Unix Makefiles"
-#BUILDER[ninja]="Ninja"
+BUILDER[ninja]="Ninja"
 declare -A OPTIONS
 OPTIONS[make]="-j4 -s -S VERBOSE=1"
-#OPTIONS[ninja]="-j4"
+OPTIONS[ninja]="-j4"
 
 # Function to run, and exit on failure
 RUN() {
