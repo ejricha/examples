@@ -209,6 +209,7 @@ void FastFilter(const std::vector<Number>& v, const std::string& name)
 		| Ranges::views::filter(IsDivisibleBySeven)
 		| Ranges::views::take(9);
 	Ranges::for_each(theView, [&vResult](const Number n) { vResult.push_back(n); });
+	(void)v;
 #else
 	// Reserve potentially more elements than we need
 	std::vector<Number> vStep1(v.size() / 70 + 1);
