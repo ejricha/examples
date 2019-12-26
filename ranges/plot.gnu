@@ -53,7 +53,9 @@ do for [O in OPERATIONS] {
 }
 
 # Also plot the compile times
-set output "compile_times.png"
+fpng = "compile_times.png"
+print("File is [%s]", fpng)
+set output fpng
 set title "Compile-time comparison of range libraries"
 set boxwidth 0.8
 set style fill solid
