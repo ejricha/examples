@@ -47,12 +47,12 @@ do
 	for C in $COMPILERS
 	do
 		HEADER+="\t${C}_${B}"
-		TOOLCHAIN="$TOPDIR/../cmake/Toolchain_$C.cmake"
+		TOOLCHAIN="../../../cmake/Toolchain_$C.cmake"
 
 		# For all the range types
 		for R in $RANGES
 		do
-			D=$TOPDIR/build_${R}_${C}_${B}
+			D=$TOPDIR/build/${R}_${C}_${B}
 			echo "# $D"
 
 			# Skip CMCSTL2 for clang, it requires -fconcepts
@@ -68,7 +68,7 @@ do
 			then
 				mkdir -p $D
 				cd $D &>/dev/null
-				RUN cmake .. -G"$S" -D CMAKE_BUILD_TYPE=$BUILD -D CMAKE_TOOLCHAIN_FILE=$TOOLCHAIN -D RANGES="$R"
+				RUN cmake ../.. -G"$S" -D CMAKE_BUILD_TYPE=$BUILD -D CMAKE_TOOLCHAIN_FILE=$TOOLCHAIN -D RANGES="$R"
 			else
 				cd $D &>/dev/null
 			fi
@@ -89,7 +89,7 @@ do
 done
 
 # Save the compile times to file
-F="compile_times.dat"
+F="$TOPDIR/results/compile_times.dat"
 echo -e "Title\t$HEADER" > $F
 for T in ${!TIMES[@]}
 do

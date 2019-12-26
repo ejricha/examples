@@ -32,4 +32,4 @@ if(RANGES)
 endif(RANGES)
 
 # Delve into the src/ subdirectory
-add_subdirectory(src)
+add_subdirectory(${CMAKE_SOURCE_DIR}/src)
