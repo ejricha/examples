@@ -2,9 +2,11 @@
 #
 # Simple script to run all the tests that we find
 
-#BUILDER="ninja"
-BUILDER="make"
-for D in build_${BUILDER}*
+BUILDER="gcc_make"
+#BUILDER="gcc_ninja"
+#BUILDER="clang_make"
+#BUILDER="clang_ninja"
+for D in build_*_${BUILDER}
 do
 	echo "# $D"
 	echo
