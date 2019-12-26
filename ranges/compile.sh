@@ -37,6 +37,13 @@ RUN() {
 	fi
 }
 
+# Update all the external dependencies
+for F in $TOPDIR/external/*
+do
+	git submodule update --init $M
+done
+echo
+
 # For all the builder types
 HEADER=""
 for B in ${!BUILDER[@]}
