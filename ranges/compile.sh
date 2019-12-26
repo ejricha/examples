@@ -100,7 +100,7 @@ done
 # Save the compile times to file
 F="$TOPDIR/results/compile_times.dat"
 echo -e "Title\t$HEADER" > $F
-for T in ${!TIMES[@]}
+for R in $RANGES
 do
-	echo -e "$T\t${TIMES[$T]}" >> $F
+	echo -e "$R\t${TIMES[$R]}" >> $F
 done
