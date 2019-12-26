@@ -14,7 +14,7 @@ do
 	do
 		date
 		echo "[$F]"
-		$F
+		$F &> /dev/null
 		echo
 	done
 	echo
