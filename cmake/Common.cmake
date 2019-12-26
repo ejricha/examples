@@ -13,9 +13,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Compile with concepts
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts")
-
 # Treat warnings as errors
 set(CUSTOM_WARNING_LEVEL "-Wall -Wextra -pedantic -Werror -Wconversion -Wfloat-equal -Wswitch-default -Wformat=2 -Wmissing-include-dirs -Wdisabled-optimization -Wunused-result -Winvalid-pch")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CUSTOM_WARNING_LEVEL}")
