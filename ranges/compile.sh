@@ -67,6 +67,7 @@ do
 			if [[ $C == "clang" && ( $R == "CMCSTL2" || $R == "NANO" ) ]]
 			then
 				TIMES[$R]+="\t0"
+				echo "(SKIPPING)"
 				echo
 				continue
 			fi
@@ -83,7 +84,7 @@ do
 
 			# Compile
 			TIME_START=`date +%s.%N`
-			time RUN $B $O
+			RUN $B $O
 			TIME_END=`date +%s.%N`
 			TIME_DIFF=`echo "$TIME_END - $TIME_START" | bc`
 			TIMES[$R]+="\t$TIME_DIFF"
