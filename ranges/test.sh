@@ -11,7 +11,6 @@ for D in build/*_${BUILDER}
 do
 	echo "# $D"
 	echo
-	ls -al $D
 	for F in $D/src/*.bin
 	do
 		date
