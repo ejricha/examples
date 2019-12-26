@@ -53,15 +53,19 @@ do for [O in OPERATIONS] {
 }
 
 # Also plot the compile times
+unset logscale xy
+unset xlabel
+unset yrange
 fpng = "compile_times.png"
 print("File is [%s]", fpng)
 set output fpng
 set title "Compile-time comparison of range libraries"
-set boxwidth 0.8
-set style fill solid
-unset logscale xy
-unset key
-unset xlabel
-unset yrange
-set yrange [0:]
-plot "compile_times.dat" using 0:2:xtic(1) with boxes, '' using 0:($2 + 0.5):2 with labels
+set auto x
+set style data histogram
+set style histogram cluster gap 1
+set style fill solid border -1
+set offsets 0, 0, 1, 0
+set key fixed top center horizontal Right noreverse noenhanced autotitle
+set boxwidth 1.0
+set xtic scale 0
+plot for [i=2:5] "compile_times.dat" using i:xtic(1) ti col
