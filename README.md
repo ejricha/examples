@@ -1,8 +1,4 @@
-# examples
-Examples for CppMaryland presentations
+# Examples for [CppMaryland](http://cppmaryland.github.io) presentations
 
-# Installation
-To fetch range libraries, run the following script:
-```shell
-ranges/fetch_libraries.sh
-```
+## [Ranges](ranges/README.md)
+Test of various C++ ranges libraries, see the [`ranges/`](ranges) subdirectory
