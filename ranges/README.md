@@ -15,7 +15,7 @@ To run tests against all build directories, run:
 ```
 ./test.sh
 ```
-This will result in some stdout and a bunch of `.dat` files in this directory.
+This will result in some stdout and a bunch of `.dat` files the `results/` directory.
 
 ## Results
 Once the code has been compiled and tested, run:
