@@ -10,13 +10,17 @@ BUILD="Release"
 # Different options for make and ninja
 declare -A BUILDER
 BUILDER[make]="Unix Makefiles"
-#BUILDER[ninja]="Ninja"
+BUILDER[ninja]="Ninja"
 declare -A OPTIONS
 OPTIONS[make]="-j4 -s -S VERBOSE=1"
-#OPTIONS[ninja]="-j4"
+OPTIONS[ninja]="-j4"
 
 # Build with the following options for ranges
 RANGES="NONE V3 NANO CMCSTL2"
+declare -A TIMES
+
+# Build with the following compilers
+COMPILERS="gcc clang"
 
 # Function to run, and exit on failure
 RUN() {
@@ -33,33 +37,61 @@ RUN() {
 }
 
 # For all the builder types
+HEADER=""
 for B in ${!BUILDER[@]}
 do
 	S=${BUILDER[$B]}
 	O=${OPTIONS[$B]}
 
-	# For all the range types
-	for R in $RANGES
+	# For the specified compilers
+	for C in $COMPILERS
 	do
-		D=$TOPDIR/build_${B}_ranges_${R}
-		echo "# $D"
+		HEADER+="\t${C}_${B}"
+		TOOLCHAIN="$TOPDIR/../cmake/Toolchain_$C.cmake"
 
-		# Only run cmake if the directory didn't exist
-		if [[ ! -d $D ]]
-		then	
-			mkdir -p $D
-			cd $D
-			RUN cmake .. -G"$S" -D CMAKE_BUILD_TYPE=$BUILD -D RANGES="$R"
-		else
-			cd $D
-		fi
+		# For all the range types
+		for R in $RANGES
+		do
+			D=$TOPDIR/build_${R}_${C}_${B}
+			echo "# $D"
 
-		# Compile
-		time RUN $B $O
-		echo
+			# Skip CMCSTL2 for clang, it requires -fconcepts
+			if [[ $C == "clang" && ( $R == "CMCSTL2" || $R == "NANO" ) ]]
+			then
+				TIMES[$R]+="\t0"
+				echo
+				continue
+			fi
 
-		cd -
-		echo
+			# Only run cmake if the directory didn't exist
+			if [[ ! -d $D ]]
+			then
+				mkdir -p $D
+				cd $D &>/dev/null
+				RUN cmake .. -G"$S" -D CMAKE_BUILD_TYPE=$BUILD -D CMAKE_TOOLCHAIN_FILE=$TOOLCHAIN -D RANGES="$R"
+			else
+				cd $D &>/dev/null
+			fi
+
+			# Compile
+			TIME_START=`date +%s.%N`
+			time RUN $B $O
+			TIME_END=`date +%s.%N`
+			TIME_DIFF=`echo "$TIME_END - $TIME_START" | bc`
+			TIMES[$R]+="\t$TIME_DIFF"
+			echo
+
+			cd - &>/dev/null
+			echo
+		done
 	done
 	echo
+done
+
+# Save the compile times to file
+F="compile_times.dat"
+echo -e "Title\t$HEADER" > $F
+for T in ${!TIMES[@]}
+do
+	echo -e "$T\t${TIMES[$T]}" >> $F
 done
