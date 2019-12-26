@@ -225,7 +225,7 @@ void LoopTests(const std::string& operation, FunctionPointer fn)
 	auto timer = std::chrono::high_resolution_clock::now();
 
 	// Open the output file
-	std::ofstream fout("results_" + Name + "_" + operation + ".dat");
+	std::ofstream fout("results/" + Name + "_" + operation + ".dat");
 	fout << "# N\t" << operation << "\n";
 
 	auto v = GenerateVector(0);

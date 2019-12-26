@@ -40,7 +40,7 @@ do for [O in OPERATIONS] {
 	i = 1
 	array f[4]
 	do for [R in "NONE V3 CMCSTL2 NANO"] {
-		f[i] = sprintf("results_%s_%s.dat", R, O)
+		f[i] = sprintf("%s_%s.dat", R, O)
 		i = i + 1
 	}
 
