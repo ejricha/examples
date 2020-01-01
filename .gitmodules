@@ -1,9 +1,9 @@
-[submodule "ranges/external/range-v3"]
-	path = ranges/external/range-v3
+[submodule ".external/range-v3"]
+	path = .external/range-v3
 	url = https://github.com/ericniebler/range-v3.git
-[submodule "ranges/external/NanoRange"]
-	path = ranges/external/NanoRange
+[submodule ".external/NanoRange"]
+	path = .external/NanoRange
 	url = https://github.com/tcbrindle/NanoRange.git
-[submodule "ranges/external/cmcstl2"]
-	path = ranges/external/cmcstl2
+[submodule ".external/cmcstl2"]
+	path = .external/cmcstl2
 	url = https://github.com/CaseyCarter/cmcstl2.git

@@ -38,11 +38,7 @@ RUN() {
 }
 
 # Update all the external dependencies
-for F in $TOPDIR/external/*
-do
-	git submodule update --init $M
-done
-echo
+$TOPDIR/../fetch_external_libraries.sh
 
 # For all the builder types
 HEADER=""

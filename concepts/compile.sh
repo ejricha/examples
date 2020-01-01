@@ -29,6 +29,9 @@ RUN() {
 	fi
 }
 
+# Update all the external dependencies
+$TOPDIR/../fetch_external_libraries.sh
+
 # For all the builder types
 for B in ${!BUILDER[@]}
 do
