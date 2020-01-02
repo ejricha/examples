@@ -5,6 +5,13 @@
 #include <iostream>
 #include <string>
 
+// Include the concepts library from range-v3 library,
+//  and prevent a conversion warning/error
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+#include <range/v3/all.hpp>
+#pragma GCC diagnostic pop
+
 namespace cppmaryland {
 
 // Static string for testing
