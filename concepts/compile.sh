@@ -9,11 +9,12 @@ BUILD="Release"
 
 # Different options for make and ninja
 declare -A BUILDER
-BUILDER[make]="Unix Makefiles"
+#BUILDER[make]="Unix Makefiles"
 BUILDER[ninja]="Ninja"
-declare -A OPTIONS
-OPTIONS[make]="-j4 -s -S VERBOSE=1"
-OPTIONS[ninja]="-j4"
+OPTIONS="-j4"
+
+# Build with the following compilers
+COMPILERS="gcc clang"
 
 # Function to run, and exit on failure
 RUN() {
@@ -33,28 +34,46 @@ RUN() {
 $TOPDIR/../fetch_external_libraries.sh
 
 # For all the builder types
+HEADER=""
 for B in ${!BUILDER[@]}
 do
 	S=${BUILDER[$B]}
-	O=${OPTIONS[$B]}
 
-	D=$TOPDIR/build_${B}
-	echo "# $D"
+	# For the specified compilers
+	for C in $COMPILERS
+	do
+		HEADER+="\t${C}_${B}"
+		TOOLCHAIN="../../../cmake/Toolchain_$C.cmake"
 
-	# Only run cmake if the directory didn't exist
-	if [[ ! -d $D ]]
-	then	
-		mkdir -p $D
-		cd $D
-		RUN cmake .. -G"$S" -D CMAKE_BUILD_TYPE=$BUILD -D RANGES="$R"
-	else
-		cd $D
-	fi
+		D=$TOPDIR/build/${C}_${B}
+		echo "# $D"
 
-	# Compile
-	time RUN $B $O
-	echo
+		# Only run cmake if the directory didn't exist
+		if [[ ! -d $D ]]
+		then
+			mkdir -p $D
+			cd $D &>/dev/null
+			RUN cmake ../.. -G"$S" -D CMAKE_BUILD_TYPE=$BUILD -D CMAKE_TOOLCHAIN_FILE=$TOOLCHAIN
+		else
+			cd $D &>/dev/null
+		fi
 
-	cd -
+		# Only failing the VALID target should exit this script
+		CMD="cmake --build . $OPTIONS"
+		TIME_START=`date +%s.%N`
+		if [[ $P == VALID ]]
+		then
+			$CMD
+		else
+			RUN $CMD
+		fi
+		TIME_END=`date +%s.%N`
+		TIME_DIFF=`echo "$TIME_END - $TIME_START" | bc`
+		TIMES[$R]+="\t$TIME_DIFF"
+		echo
+
+		cd - &>/dev/null
+		echo
+	done
 	echo
 done
