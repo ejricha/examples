@@ -69,11 +69,21 @@ do
 		fi
 		TIME_END=`date +%s.%N`
 		TIME_DIFF=`echo "$TIME_END - $TIME_START" | bc`
-		TIMES[$R]+="\t$TIME_DIFF"
+		TIMES[$S]+="\t$TIME_DIFF"
 		echo
 
 		cd - &>/dev/null
 		echo
 	done
 	echo
+done
+
+# Save the compile times to file
+mkdir -p $TOPDIR/results
+F="$TOPDIR/results/compile_times.dat"
+echo -e "Title\t$HEADER" > $F
+for B in ${!BUILDER[@]}
+do
+	S=${BUILDER[$B]}
+	echo -e "$C\t${TIMES[$S]}" >> $F
 done
