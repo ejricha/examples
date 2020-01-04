@@ -8,10 +8,13 @@ include(${CMAKE_SOURCE_DIR}/../cmake/Common.cmake)
 message("Using Casey Carter's CMCSTL2 library")
 include_directories(${CMAKE_SOURCE_DIR}/../.external/cmcstl2/include)
 
+# Add the top-level include directory for concepts
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
 # Build shared libraries for BaseClass and DerivedClass
 set(BUILD_SHARED_LIBS ON)
-add_library(base BaseClass.cpp BaseClass.hpp)
-add_library(derived DerivedClass.cpp DerivedClass.hpp)
+add_library(base BaseClass.cpp)
+add_library(derived DerivedClass.cpp)
 
 # Add an executable built from a single source file
 add_executable(Examples.bin Examples.cpp)

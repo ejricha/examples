@@ -6,12 +6,14 @@
 #include <string>
 #include <type_traits>
 
+#include <cassert>
+
 // Include the concepts from the CMCSTL2 library
 #include <stl2/concepts.hpp>
 
-// Simple Base and Derived classes
 #include "BaseClass.hpp"
 #include "DerivedClass.hpp"
+#include "Overloads.hpp"
 
 namespace cppmaryland {
 
@@ -170,7 +172,6 @@ void FunctionsConcepts()
 
 // ===========================================================
 
-
 // Templated function without concepts
 template <typename UnconfirmedInt>
 char AtIndex(const UnconfirmedInt i)
@@ -241,6 +242,71 @@ void SimpleTests()
 	
 	// Prevent warning/error about unused variable
 	(void)f;
+	std::cout << std::endl;
+}
+
+// Show a really long error message
+template <typename Container>
+size_t IndexOfLargest(const Container& c)
+{
+	// If the container is empty, return 0
+	if (c.empty())
+	{
+		return 0;
+	}
+
+	// Store the first value as the largest thus far
+	using V = typename Container::value_type;
+	auto it = c.cbegin();
+	std::pair<size_t, V> largest(0, *it);
+
+	// Iterate through the rest of the values
+	++it;
+	for (size_t index = 0; it != c.cend(); ++it)
+	{
+		if (*it > largest.second)
+		{
+			largest.first = index;
+			largest.second = *it;
+		}
+		++index;
+	}
+	
+	// Retur the index of the largest value
+	return largest.first;
+}
+
+// Test with a few valid containers, and an invalid one
+void TestIndexOfLargest()
+{
+	size_t i;
+
+	std::vector<int> a1 = { 1, 2, 5, 7, 3, 5, 4, 6 };
+	i = IndexOfLargest(a1);
+	std::cout << a1 << " max is " << a1[i] << " @ index " << i << "\n";
+	assert((i == 3) && (a1[i] == 7));
+
+	std::vector<int> a2 = { 1, 2, 5, 4, 5 };
+	i = IndexOfLargest(a2);
+	std::cout << a2 << " max is " << a2[i] << " @ index " << i << "\n";
+	assert((i == 2) && (a2[i] == 5));
+
+	std::vector<int> a3 = { 6, 1 };
+	i = IndexOfLargest(a3);
+	std::cout << a3 << " max is " << a3[i] << " @ index " << i << "\n";
+	assert((i == 6) && (a3[i] == 0));
+
+	std::vector<int> a4 = { -1 };
+	i = IndexOfLargest(a4);
+	std::cout << a4 << " max is " << a4[i] << " @ index " << i << "\n";
+	assert((i == 0) && (a4[i] == -1));
+
+	std::vector<int> a5 = { };
+	i = IndexOfLargest(a5);
+	std::cout << a5 << " max is @ index " << i << "\n";
+	assert(i == 0);
+
+	std::cout << std::endl;
 }
 
 // Run the tests for the following functions
@@ -253,8 +319,9 @@ void RunTests()
 
 	// Run all the simple tests next
 	SimpleTests();
-
-	std::cout << std::endl;
+	
+	// Find the index of the largest value
+	TestIndexOfLargest();
 }
 
 } // namespace cppmaryland
