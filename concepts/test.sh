@@ -2,9 +2,7 @@
 #
 # Simple script to run all the tests that we find
 
-#BUILDER="ninja"
-BUILDER="make"
-for D in build_${BUILDER}*
+for D in build/*
 do
 	echo "# $D"
 	echo
