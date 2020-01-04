@@ -13,8 +13,8 @@ declare -A BUILDER
 BUILDER[ninja]="Ninja"
 OPTIONS="-j4"
 
-# Build with the following compilers
-COMPILERS="gcc clang"
+# Only g++ supports -fconcepts that we eed
+COMPILERS="gcc"
 
 # Function to run, and exit on failure
 RUN() {
