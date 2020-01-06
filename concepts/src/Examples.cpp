@@ -3,8 +3,11 @@
 // Run a lot of examples of concepts
 
 #include <iostream>
+#include <list>
+#include <set>
 #include <string>
 #include <type_traits>
+#include <vector>
 
 #include <cassert>
 
@@ -305,6 +308,12 @@ void TestIndexOfLargest()
 	i = IndexOfLargest(a5);
 	std::cout << a5 << " max is @ index " << i << "\n";
 	assert(i == 0);
+
+	// Try a few different containers
+	std::list<int> l1 { 1, 2, 5, 4, 5 };
+	IndexOfLargest(l1);
+	std::multiset<int> m1 { 1, 2, 5, 4, 5 };
+	IndexOfLargest(m1);
 
 	std::cout << std::endl;
 }
