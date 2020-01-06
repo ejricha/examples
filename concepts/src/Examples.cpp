@@ -281,27 +281,27 @@ void TestIndexOfLargest()
 {
 	size_t i;
 
-	std::vector<int> a1 = { 1, 2, 5, 7, 3, 5, 4, 6 };
+	std::vector<int> a1 { 1, 2, 5, 7, 3, 5, 4, 6 };
 	i = IndexOfLargest(a1);
 	std::cout << a1 << " max is " << a1[i] << " @ index " << i << "\n";
 	assert((i == 3) && (a1[i] == 7));
 
-	std::vector<int> a2 = { 1, 2, 5, 4, 5 };
+	std::vector<int> a2 { 1, 2, 5, 4, 5 };
 	i = IndexOfLargest(a2);
 	std::cout << a2 << " max is " << a2[i] << " @ index " << i << "\n";
 	assert((i == 2) && (a2[i] == 5));
 
-	std::vector<int> a3 = { 6, 1 };
+	std::vector<int> a3 { 6, 1 };
 	i = IndexOfLargest(a3);
 	std::cout << a3 << " max is " << a3[i] << " @ index " << i << "\n";
 	assert((i == 6) && (a3[i] == 0));
 
-	std::vector<int> a4 = { -1 };
+	std::vector<int> a4 { -1 };
 	i = IndexOfLargest(a4);
 	std::cout << a4 << " max is " << a4[i] << " @ index " << i << "\n";
 	assert((i == 0) && (a4[i] == -1));
 
-	std::vector<int> a5 = { };
+	std::vector<int> a5 { };
 	i = IndexOfLargest(a5);
 	std::cout << a5 << " max is @ index " << i << "\n";
 	assert(i == 0);
