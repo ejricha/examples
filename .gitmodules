@@ -7,3 +7,6 @@
 [submodule ".external/cmcstl2"]
 	path = .external/cmcstl2
 	url = https://github.com/CaseyCarter/cmcstl2.git
+[submodule ".external/scripts"]
+	path = .external/scripts
+	url = https://github.com/ejricha/scripts.git
