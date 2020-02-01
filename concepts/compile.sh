@@ -4,6 +4,7 @@
 #  using both make and ninja
 
 TOPDIR=`dirname $0`
+TOOLSDIR="../../../.external/scripts/cmake"
 
 BUILD="Release"
 
@@ -43,7 +44,7 @@ do
 	for C in $COMPILERS
 	do
 		HEADER+="\t${C}_${B}"
-		TOOLCHAIN="../../../cmake/Toolchain_$C.cmake"
+		TOOLCHAIN="$TOOLSDIR/Toolchain_$C.cmake"
 
 		D=$TOPDIR/build/${C}_${B}
 		echo "# $D"

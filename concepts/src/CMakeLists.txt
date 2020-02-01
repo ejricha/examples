@@ -3,10 +3,11 @@
 cmake_minimum_required(VERSION 3.0)
 
 # Source the top-level cmake file
-include(${CMAKE_SOURCE_DIR}/../cmake/Common.cmake)
+set(EXTERNAL_DIR "${CMAKE_SOURCE_DIR}/../.external")
+include(${EXTERNAL_DIR}/scripts/cmake/Common.cmake)
 
 message("Using Casey Carter's CMCSTL2 library")
-include_directories(${CMAKE_SOURCE_DIR}/../.external/cmcstl2/include)
+include_directories(${EXTERNAL_DIR}/cmcstl2/include)
 
 # Add the top-level include directory for concepts
 include_directories(${CMAKE_SOURCE_DIR}/include)
