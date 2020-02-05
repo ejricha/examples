@@ -4,6 +4,6 @@
 
 #pragma once
 
-#include "../a/a.hpp"
+#include "../LibraryA/a.hpp"
 
 int main();

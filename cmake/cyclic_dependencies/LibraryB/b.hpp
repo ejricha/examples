@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "../c/c.hpp"
+#include "../LibraryC/c.hpp"
 
 namespace cppmaryland {
 
