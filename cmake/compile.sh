@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Binary to run
-EXE="cyclic_dependencies/main/test_cycle"
+EXE="cyclic_dependencies/ExecutableApp/TestCycle"
 
 # Source the common functions
 SCRIPTS="../.external/scripts"
