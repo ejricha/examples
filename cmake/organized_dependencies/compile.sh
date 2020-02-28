@@ -9,7 +9,7 @@ source $SCRIPTS/bash/common.sh
 
 # Run for the following generators
 declare -A GENERATOR
-GENERATOR[make]="Unix Makefiles"
+#GENERATOR[make]="Unix Makefiles"
 GENERATOR[ninja]="Ninja"
 
 # More variables
