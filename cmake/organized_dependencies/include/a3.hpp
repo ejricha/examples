@@ -7,8 +7,8 @@
 #include <iostream>
 
 //#include "b1.hpp"
-//#include "b2.hpp"
-//#include "b3.hpp"
+#include "b2.hpp"
+#include "b3.hpp"
 //#include "b4.hpp"
 //#include "b5.hpp"
 //#include "c1.hpp"

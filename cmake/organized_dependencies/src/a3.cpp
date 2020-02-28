@@ -11,6 +11,10 @@ void a3::print() {
 	std::cout << "[" << mDate << "] - " << mName
 		<< "top\n";
 	//b1::print();
+	b2::print();
+	b3::print();
+	//b4::print();
+	//b5::print();
 	e7::print();
 	std::cout << "[" << mDate << "] - " << mName
 		<< "end\n";

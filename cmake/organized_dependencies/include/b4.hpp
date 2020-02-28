@@ -1,4 +1,4 @@
-// b1.hpp
+// b4.hpp
 //
 // Simple library
 
@@ -27,19 +27,19 @@
 //#include "e4.hpp"
 //#include "e5.hpp"
 //#include "e6.hpp"
-#include "e7.hpp"
+//#include "e7.hpp"
 
 namespace examples {
 
 // Class for this library
-class b1 {
+class b4 {
 public:
 	// Print from this library
 	static void print(size_t indent = 1);
 
 private:
 	// This library's name
-	inline static const std::string mName { "b1" };
+	inline static const std::string mName { "b4" };
 
 	// The date is modified by test scripts
 	inline static const std::string mDate { "2020-02-28_114500" };
