@@ -15,7 +15,15 @@ void a3::print() {
 	b3::print();
 	//b4::print();
 	//b5::print();
-	e7::print();
+	c1::print();
+	//c2::print();
+	//c3::print();
+	d1::print();
+	//d2::print();
+	e1::print();
+	//e2::print();
+	//e3::print();
+	//e4::print();
 	std::cout << "[" << mDate << "] - " << mName
 		<< "end\n";
 }
