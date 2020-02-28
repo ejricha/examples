@@ -22,8 +22,11 @@ DIRS="deps_full deps_less"
 # The main function
 main()
 {
-	# Only run the initial
+	# Create the build directories,
+	#  and run the initial CMake
 	clean_cmake
+
+	# Loop until we encounter an error
 	while true
 	do
 		DATE_TIME=`date +"%Y-%m-%d_%H%M%S"`
@@ -103,12 +106,22 @@ run_apps()
 	DATE_TIME=$1
 	echo "run_apps($DATE_TIME)"
 
-	# Run both types of each application
-	for A in $APPS
+	# Run for all generators
+	for B in build_*
 	do
-		for D in $DIRS
+		# Ensure that the log directory exists
+		L=$LOG/$B/$DATE_TIME
+		mkdir -p $L
+		
+		# Make sure every app produced identical results
+		#  for both types of depedency builds
+		for A in $APPS
 		do
-			$D/$A > $LOG/$DATE_TIME/$A.log
+			for D in $DIRS
+			do
+				# Capture the output of the application
+				$B/${D}_${A} > $L/$A.log
+			done
 		done
 	done
 }

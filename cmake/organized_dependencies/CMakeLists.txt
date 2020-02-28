@@ -6,6 +6,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# All applications will end in .bin
+set(CMAKE_EXECUTABLE_SUFFIX .bin)
+
 # All source files are in src/,
 #  and header files are in include/
 set(SRC src)
