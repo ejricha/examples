@@ -4,7 +4,7 @@
 EXE="cyclic_dependencies/ExecutableApp/TestCycle"
 
 # Source the common functions
-SCRIPTS="../.external/scripts"
+SCRIPTS="../../.external/scripts"
 source $SCRIPTS/bash/common.sh
 
 # Try both static and shared libraries
