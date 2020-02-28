@@ -97,6 +97,24 @@ check_for_differences() {
 	# The argument is the date/time
 	DATE_TIME=$1
 	echo "check_for_differences($DATE_TIME)"
+
+	# Run for all generators
+	for B in build_*
+	do
+		# Use the following log file
+		L=$LOG/$B/$DATE_TIME
+		
+		# Make sure every app produced identical results
+		#  for both types of depedency builds
+		for A in $APPS
+		do
+			# If we had any diff, exit
+			RUN diff -u $L/*_${A}.log > $L/${A}.diff
+
+			# Otherwise, clean up
+			RUN rm -f $L/${A}.diff
+		done
+	done
 }
 
 # Run all the applications
@@ -120,7 +138,8 @@ run_apps()
 			for D in $DIRS
 			do
 				# Capture the output of the application
-				$B/${D}_${A} > $L/$A.log
+				APP=${D}_${A}
+				$B/$APP > $L/$APP.log
 			done
 		done
 	done
