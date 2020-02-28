@@ -19,6 +19,8 @@ include_directories(${INC})
 foreach(X deps_full deps_less)
 	# Applications
 	add_executable(${X}_a1 ${SRC}/a1.cpp)
+	add_executable(${X}_a2 ${SRC}/a2.cpp)
+	add_executable(${X}_a3 ${SRC}/a3.cpp)
 
 	# Libraries
 	add_library(${X}_b1 ${SRC}/b1.cpp)
@@ -29,9 +31,13 @@ endforeach()
 set(X deps_full)
 target_link_libraries(${X}_a1 ${X}_b1)
 target_link_libraries(${X}_a1 ${X}_e7)
+target_link_libraries(${X}_a2 ${X}_b1)
+target_link_libraries(${X}_a3 ${X}_e7)
 target_link_libraries(${X}_b1 ${X}_e7)
 
 # Fewer dependencies
 set(X deps_less)
 target_link_libraries(${X}_a1 ${X}_b1)
+target_link_libraries(${X}_a2 ${X}_b1)
+target_link_libraries(${X}_a3 ${X}_e7)
 target_link_libraries(${X}_b1 ${X}_e7)

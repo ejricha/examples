@@ -8,11 +8,13 @@ namespace examples {
 
 // Only one public function
 void b1::print(size_t indent) {
-	std::cout << mName << " [" << mDate << "] -"
-		<< std::string(indent, ' ') << " top\n";
+	std::cout << "[" << mDate << "] - "
+		<< std::string(indent, ' ') << mName
+		<< "top\n";
 	e7::print(indent + 1);
-	std::cout << mName << " [" << mDate << "] -"
-		<< std::string(indent, ' ') << " end\n";
+	std::cout << "[" << mDate << "] - "
+		<< std::string(indent, ' ') << mName
+		<< "end\n";
 }
 
 } // namespace examples

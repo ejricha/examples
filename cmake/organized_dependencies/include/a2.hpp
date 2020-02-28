@@ -1,4 +1,4 @@
-// a1.hpp
+// a2.hpp
 //
 // Top-level executable
 
@@ -27,19 +27,19 @@
 //#include "e4.hpp"
 //#include "e5.hpp"
 //#include "e6.hpp"
-#include "e7.hpp"
+//#include "e7.hpp"
 
 namespace examples {
 
 // Class for this application
-class a1 {
+class a2 {
 public:
 	// Print from this application
 	static void print();
 
 private:
 	// This library's name
-	inline static const std::string mName { "a1" };
+	inline static const std::string mName { "a2" };
 
 	// The date is modified by test scripts
 	inline static const std::string mDate { "2020-02-28_114000" };

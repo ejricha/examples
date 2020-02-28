@@ -1,17 +1,17 @@
-// a1.cpp
+// a2.cpp
 //
 // Top-level executable
 
-#include "a1.hpp"
+#include "a2.hpp"
 
 namespace examples {
 
 // Only one public function
-void a1::print() {
+void a2::print() {
 	std::cout << "[" << mDate << "] - " << mName
 		<< "top\n";
 	b1::print();
-	e7::print();
+	//e7::print();
 	std::cout << "[" << mDate << "] - " << mName
 		<< "end\n";
 }
@@ -23,7 +23,7 @@ int main() {
 	using namespace examples;
 
 	// Call the static function
-	a1::print();
+	a2::print();
 
 	return EXIT_SUCCESS;
 }

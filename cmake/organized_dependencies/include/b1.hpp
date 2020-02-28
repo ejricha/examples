@@ -37,7 +37,7 @@ namespace examples {
 class b1 {
 public:
 	// Print from this library
-	static void print(size_t indent = 0);
+	static void print(size_t indent = 1);
 
 private:
 	// This library's name
