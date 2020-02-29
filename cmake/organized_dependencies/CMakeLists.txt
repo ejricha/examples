@@ -15,11 +15,14 @@ set(SRC src)
 set(INC include)
 include_directories(${INC})
 
-# Add the library as static or shared
+# Add the library as static or shared,
+#  but make sure both deps_full and deps_less
+#  are building each library the same way
+string(RANDOM LENGTH 20 ALPHABET "01" R)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-function(AddStaticOrSharedLibrary target source)
-	# Generate a random number
-	string(RANDOM LENGTH 1 ALPHABET "01" isShared)
+function(AddStaticOrSharedLibrary target source index)
+	# Determine the type of library to build
+	string(SUBSTRING ${R} ${index} 1 isShared)
 	if(isShared)
 		set(TYPE SHARED)
 	else()
@@ -36,20 +39,20 @@ foreach(X deps_full deps_less)
 	add_executable(${X}_a3 ${SRC}/a3.cpp)
 
 	# Add libraries as randomly STATIC or SHARED
-	AddStaticOrSharedLibrary(${X}_b1 ${SRC}/b1.cpp)
-	AddStaticOrSharedLibrary(${X}_b2 ${SRC}/b2.cpp)
-	AddStaticOrSharedLibrary(${X}_b3 ${SRC}/b3.cpp)
-	AddStaticOrSharedLibrary(${X}_b4 ${SRC}/b4.cpp)
-	AddStaticOrSharedLibrary(${X}_b5 ${SRC}/b5.cpp)
-	AddStaticOrSharedLibrary(${X}_c1 ${SRC}/c1.cpp)
-	AddStaticOrSharedLibrary(${X}_c2 ${SRC}/c2.cpp)
-	AddStaticOrSharedLibrary(${X}_c3 ${SRC}/c3.cpp)
-	AddStaticOrSharedLibrary(${X}_d1 ${SRC}/d1.cpp)
-	AddStaticOrSharedLibrary(${X}_d2 ${SRC}/d2.cpp)
-	AddStaticOrSharedLibrary(${X}_e1 ${SRC}/e1.cpp)
-	AddStaticOrSharedLibrary(${X}_e2 ${SRC}/e2.cpp)
-	AddStaticOrSharedLibrary(${X}_e3 ${SRC}/e3.cpp)
-	AddStaticOrSharedLibrary(${X}_e4 ${SRC}/e4.cpp)
+	AddStaticOrSharedLibrary(${X}_b1 ${SRC}/b1.cpp 1)
+	AddStaticOrSharedLibrary(${X}_b2 ${SRC}/b2.cpp 2)
+	AddStaticOrSharedLibrary(${X}_b3 ${SRC}/b3.cpp 3)
+	AddStaticOrSharedLibrary(${X}_b4 ${SRC}/b4.cpp 4)
+	AddStaticOrSharedLibrary(${X}_b5 ${SRC}/b5.cpp 5)
+	AddStaticOrSharedLibrary(${X}_c1 ${SRC}/c1.cpp 6)
+	AddStaticOrSharedLibrary(${X}_c2 ${SRC}/c2.cpp 7)
+	AddStaticOrSharedLibrary(${X}_c3 ${SRC}/c3.cpp 8)
+	AddStaticOrSharedLibrary(${X}_d1 ${SRC}/d1.cpp 9)
+	AddStaticOrSharedLibrary(${X}_d2 ${SRC}/d2.cpp 10)
+	AddStaticOrSharedLibrary(${X}_e1 ${SRC}/e1.cpp 11)
+	AddStaticOrSharedLibrary(${X}_e2 ${SRC}/e2.cpp 12)
+	AddStaticOrSharedLibrary(${X}_e3 ${SRC}/e3.cpp 13)
+	AddStaticOrSharedLibrary(${X}_e4 ${SRC}/e4.cpp 14)
 endforeach()
 
 # Both PUBLIC and PRIVATE linking work,
