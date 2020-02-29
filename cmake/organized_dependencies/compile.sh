@@ -36,14 +36,14 @@ main()
 
 		change_random_libs_and_apps
 		build_random_libs_and_apps
-		run_apps
-		check_for_differences
+		run_all_apps
+		compare_outputs
 
 		# Sleep for at least a second
 		sleep 1
 		echo
 	done
-	
+
 	echo "Successfully completed $N runs"
 }
 
@@ -58,7 +58,7 @@ clean_cmake()
 		S=${GENERATOR[$G]}
 		B="build_${G}"
 		echo "[$B via $S]"
-	
+
 		# Create and enter the build directory
 		mkdir -p $B
 		cd $B
@@ -66,7 +66,7 @@ clean_cmake()
 		# Generate the CMake files, and compile all targets
 		RUN $CMAKE -G"$S" ..
 		RUN $CMAKE --build .
-	
+
 		# Produce graphs in the build dir
 		RUN ../$SCRIPTS/bash/graph_dependencies.sh
 
@@ -125,40 +125,10 @@ build_random_libs_and_apps()
 	done
 }
 
-# Check for differences in the output files
-check_for_differences() {
-	echo "check_for_differences()"
-
-	# Run for all generators
-	for B in build_*
-	do
-		# Use the following log file
-		L=$LOG/$B/$DATE_TIME
-		
-		# Make sure every app produced identical results
-		#  for both types of depedency builds
-		for A in $APPS
-		do
-			# If we had any diff, exit
-			RUN diff -u $L/*_${A}.log > $L/${A}.diff
-
-			# Otherwise, clean up
-			RUN rm -f $L/${A}.diff
-		done
-
-		# Remove the logs unless we are keeping them
-		if [[ $KEEP_LOGS -eq 0 ]]
-		then
-			RUN rm -f $L/*.log
-			RUN rmdir $L
-		fi
-	done
-}
-
 # Run all the applications
-run_apps()
+run_all_apps()
 {
-	echo "run_apps()"
+	echo "run_all_apps()"
 
 	# Run for all generators
 	for B in build_*
@@ -166,7 +136,7 @@ run_apps()
 		# Ensure that the log directory exists
 		L=$LOG/$B/$DATE_TIME
 		mkdir -p $L
-		
+
 		# Make sure every app produced identical results
 		#  for both types of depedency builds
 		for A in $APPS
@@ -179,6 +149,56 @@ run_apps()
 			done
 		done
 	done
+}
+
+# Check for differences in the output files
+compare_outputs() {
+	echo "compare_outputs()"
+
+	# Run for all generators
+	for B in build_*
+	do
+		# Use the following log file
+		L=$LOG/$B/$DATE_TIME
+
+		# Make sure every app produced identical results
+		#  for both types of depedency builds
+		for A in $APPS
+		do
+			# If the files differed at all, show the diff and exit
+			check_diff $L $A
+		done
+	done
+	echo "  (no differences)"
+}
+
+# If the files had any differences, show them and exit
+check_diff() {
+	L=$1
+	A=$2
+
+	# First, create the diff file
+	DIFF=$L/${A}.diff
+	diff -u $L/*_${A}.log > $DIFF
+
+	# On a non-zero return code, show the diff and exit
+	RET=$?
+	if [[ $RET -ne 0 ]]
+	then
+		echo "ERROR: ${L} had differeces for ${A}:"
+		cat $DIFF
+		exit $RET
+	fi
+
+	# Otherwise, clean up the diff file
+	RUN rm -f $DIFF
+
+	# Remove the logs unless we are keeping them
+	if [[ $KEEP_LOGS -eq 0 ]]
+	then
+		RUN rm -f $L/*.log
+		RUN rmdir $L
+	fi
 }
 
 # Call the main function
