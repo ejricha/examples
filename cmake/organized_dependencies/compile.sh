@@ -19,7 +19,10 @@ LOG="$TOPDIR/log"
 APPS="a1.bin a2.bin a3.bin"
 DIRS="deps_full deps_less"
 SEARCH="[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}_[[:digit:]]{6}"
-KEEP_LOGS=0 # Set to 1 to preserve all .log files
+
+# Debugging flags
+KEEP_LOGS=0   # Presere all .log files
+FORCE_ERROR=0 # Produce an error sometimes
 
 # The main function
 main()
@@ -114,6 +117,12 @@ build_random_libs_and_apps()
 		do
 			for D in $DIRS
 			do
+				# If we are intentionally erroring, skip 5% of builds
+				if [[ $FORCE_ERROR -eq 1 && $(($RANDOM % 100)) -lt 5 ]]
+				then
+					continue
+				fi
+
 				# Set the target to build
 				T=${D}_${F}
 				echo "  $T"
