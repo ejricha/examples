@@ -10,7 +10,7 @@ namespace examples {
 void c2::print(size_t indent) {
 	std::cout << "[" << mDate << "] - "
 		<< std::string(indent, ' ') << mName
-		<< "top\n";
+		<< " - top\n";
 	d1::print(indent + 1);
 	//d2::print(indent + 1);
 	e1::print(indent + 1);
@@ -19,7 +19,7 @@ void c2::print(size_t indent) {
 	e4::print(indent + 1);
 	std::cout << "[" << mDate << "] - "
 		<< std::string(indent, ' ') << mName
-		<< "end\n";
+		<< " - end\n";
 }
 
 } // namespace examples

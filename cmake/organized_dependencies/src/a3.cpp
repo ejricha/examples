@@ -9,7 +9,7 @@ namespace examples {
 // Only one public function
 void a3::print() {
 	std::cout << "[" << mDate << "] - " << mName
-		<< "top\n";
+		<< " - top\n";
 	//b1::print();
 	b2::print();
 	b3::print();
@@ -25,7 +25,7 @@ void a3::print() {
 	//e3::print();
 	//e4::print();
 	std::cout << "[" << mDate << "] - " << mName
-		<< "end\n";
+		<< " - end\n";
 }
 
 } // namespace examples
