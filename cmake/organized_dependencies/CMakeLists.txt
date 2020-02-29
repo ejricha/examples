@@ -55,11 +55,9 @@ foreach(X deps_full deps_less)
 	AddStaticOrSharedLibrary(${X}_e4 ${SRC}/e4.cpp 14)
 endforeach()
 
-# Both PUBLIC and PRIVATE linking work,
-#  but we can't use INTERFACE because we
-#  actually require the dependencies
-#set(LINK PUBLIC)
-set(LINK PRIVATE)
+# Only PUBLIC linking works with the random
+#  combination of STATIC and SHARED libraries
+set(LINK PUBLIC)
 
 # Fully specified dependencies
 set(X deps_full)
