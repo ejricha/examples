@@ -15,6 +15,19 @@ set(SRC src)
 set(INC include)
 include_directories(${INC})
 
+# Add the library as static or shared
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+function(AddStaticOrSharedLibrary target source)
+	# Generate a random number
+	string(RANDOM LENGTH 1 ALPHABET "01" isShared)
+	if(isShared)
+		set(TYPE SHARED)
+	else()
+		set(TYPE STATIC)
+	endif()
+	add_library(${target} ${TYPE} ${source})
+endfunction()
+
 # Build each app/lib twice
 foreach(X deps_full deps_less)
 	# Applications
@@ -22,21 +35,21 @@ foreach(X deps_full deps_less)
 	add_executable(${X}_a2 ${SRC}/a2.cpp)
 	add_executable(${X}_a3 ${SRC}/a3.cpp)
 
-	# Libraries
-	add_library(${X}_b1 ${SRC}/b1.cpp)
-	add_library(${X}_b2 ${SRC}/b2.cpp)
-	add_library(${X}_b3 ${SRC}/b3.cpp)
-	add_library(${X}_b4 ${SRC}/b4.cpp)
-	add_library(${X}_b5 ${SRC}/b5.cpp)
-	add_library(${X}_c1 ${SRC}/c1.cpp)
-	add_library(${X}_c2 ${SRC}/c2.cpp)
-	add_library(${X}_c3 ${SRC}/c3.cpp)
-	add_library(${X}_d1 ${SRC}/d1.cpp)
-	add_library(${X}_d2 ${SRC}/d2.cpp)
-	add_library(${X}_e1 ${SRC}/e1.cpp)
-	add_library(${X}_e2 ${SRC}/e2.cpp)
-	add_library(${X}_e3 ${SRC}/e3.cpp)
-	add_library(${X}_e4 ${SRC}/e4.cpp)
+	# Add libraries as randomly STATIC or SHARED
+	AddStaticOrSharedLibrary(${X}_b1 ${SRC}/b1.cpp)
+	AddStaticOrSharedLibrary(${X}_b2 ${SRC}/b2.cpp)
+	AddStaticOrSharedLibrary(${X}_b3 ${SRC}/b3.cpp)
+	AddStaticOrSharedLibrary(${X}_b4 ${SRC}/b4.cpp)
+	AddStaticOrSharedLibrary(${X}_b5 ${SRC}/b5.cpp)
+	AddStaticOrSharedLibrary(${X}_c1 ${SRC}/c1.cpp)
+	AddStaticOrSharedLibrary(${X}_c2 ${SRC}/c2.cpp)
+	AddStaticOrSharedLibrary(${X}_c3 ${SRC}/c3.cpp)
+	AddStaticOrSharedLibrary(${X}_d1 ${SRC}/d1.cpp)
+	AddStaticOrSharedLibrary(${X}_d2 ${SRC}/d2.cpp)
+	AddStaticOrSharedLibrary(${X}_e1 ${SRC}/e1.cpp)
+	AddStaticOrSharedLibrary(${X}_e2 ${SRC}/e2.cpp)
+	AddStaticOrSharedLibrary(${X}_e3 ${SRC}/e3.cpp)
+	AddStaticOrSharedLibrary(${X}_e4 ${SRC}/e4.cpp)
 endforeach()
 
 # Both PUBLIC and PRIVATE linking work,
