@@ -19,6 +19,7 @@ LOG="$TOPDIR/log"
 APPS="a1.bin a2.bin a3.bin"
 DIRS="deps_full deps_less"
 SEARCH="[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}_[[:digit:]]{6}"
+KEEP_LOGS=0 # Set to 1 to preserve all .log files
 
 # The main function
 main()
@@ -133,6 +134,13 @@ check_for_differences() {
 			# Otherwise, clean up
 			RUN rm -f $L/${A}.diff
 		done
+
+		# Remove the logs unless we are keeping them
+		if [[ $KEEP_LOGS -eq 0 ]]
+		then
+			RUN rm -f $L/*.log
+			RUN rmdir $L
+		fi
 	done
 }
 
