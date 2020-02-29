@@ -28,11 +28,11 @@ main()
 	#  and run the initial CMake
 	clean_cmake
 
-	# Loop until we encounter an error
-	while true
+	# Loop 1000 times or until we encounter an error
+	for N in `seq 1 1000`
 	do
 		DATE_TIME=`date +"%Y-%m-%d_%H%M%S"`
-		echo "[$DATE_TIME]"
+		echo "[$DATE_TIME] (Run #$N)"
 
 		change_random_libs_and_apps
 		build_random_libs_and_apps
@@ -43,6 +43,8 @@ main()
 		sleep 1
 		echo
 	done
+	
+	echo "Successfully completed $N runs"
 }
 
 # Run initial cmake
