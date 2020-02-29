@@ -24,7 +24,7 @@ private:
 	inline static const std::string mName { "d2" };
 
 	// The date is modified by test scripts
-	inline static const std::string mDate { "2020-02-28_114500" };
+	inline static const std::string mDate { "2020-02-28_215538" };
 };
 
 } // namespace examples
