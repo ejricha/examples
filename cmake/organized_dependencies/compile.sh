@@ -18,6 +18,7 @@ CMAKE="/usr/bin/cmake" # CMake 3.16
 LOG="$TOPDIR/log"
 APPS="a1.bin a2.bin a3.bin"
 DIRS="deps_full deps_less"
+SEARCH="[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}_[[:digit:]]{6}"
 
 # The main function
 main()
@@ -68,14 +69,32 @@ clean_cmake()
 	echo
 }
 
-# Change some random number of libraries/applications
+# Change a random selection of header files
 change_random_libs_and_apps()
 {
 	# The argument is the date/time
 	DATE_TIME=$1
 	echo "change_random_libs_and_apps($DATE_TIME)"
 
-	# TODO: use sed to change date/time in header files
+	# Choose between 1 and 5 random files
+	R=$(($RANDOM % 5 + 1))
+	for F in `ls -1 include/*.hpp | sort -R | head -$R`
+	do
+		update_date_time $DATE_TIME $F
+	done
+}
+
+# Update the date/time in the given file
+update_date_time()
+{
+	# The first argument is the date/time
+	DATE_TIME=$1
+
+	# The second argument is the file
+	FILE=$2
+
+	# Replace the string in the file
+	RUN sed -Ei "s/$SEARCH/$DATE_TIME/" $FILE
 }
 
 # Build a random selection of libs and apps,
@@ -84,10 +103,10 @@ build_random_libs_and_apps()
 {
 	echo "build_random_libs_and_apps()"
 
-	# TODO: don't just build all
+	# Build in every directory
 	for B in build_*
 	do
-		echo "RUN $CMAKE --build $B"
+		# Always build all targets
 		RUN $CMAKE --build $B
 	done
 }
