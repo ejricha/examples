@@ -32,6 +32,8 @@ main()
 	while true
 	do
 		DATE_TIME=`date +"%Y-%m-%d_%H%M%S"`
+		echo "[$DATE_TIME]"
+
 		change_random_libs_and_apps
 		build_random_libs_and_apps
 		run_apps
@@ -73,13 +75,14 @@ clean_cmake()
 # Change a random selection of header files
 change_random_libs_and_apps()
 {
-	echo "change_random_libs_and_apps($DATE_TIME)"
+	echo "change_random_libs_and_apps()"
 
 	# Choose between 1 and 5 random files
 	R=$(($RANDOM % 5 + 1))
-	for F in `ls -1 include/*.hpp | sort -R | head -$R`
+	for F in `ls -1 include/ | sort -R | head -$R`
 	do
-		update_date_time $F
+		echo "  $F"
+		update_date_time include/$F
 	done
 }
 
@@ -102,14 +105,26 @@ build_random_libs_and_apps()
 	# Build in every directory
 	for B in build_*
 	do
-		# Always build all targets
-		RUN $CMAKE --build $B
+		# Choose between 1 and 5 random files (without the extension)
+		R=$(($RANDOM % 5 + 1))
+		for F in `ls -1 include/ | sort -R | head -$R | sed -E "s/\.hpp$//g"`
+		do
+			for D in $DIRS
+			do
+				# Set the target to build
+				T=${D}_${F}
+				echo "  $T"
+
+				# Actually build the specified target
+				RUN $CMAKE --build $B --target $T
+			done
+		done
 	done
 }
 
 # Check for differences in the output files
 check_for_differences() {
-	echo "check_for_differences($DATE_TIME)"
+	echo "check_for_differences()"
 
 	# Run for all generators
 	for B in build_*
@@ -140,7 +155,7 @@ check_for_differences() {
 # Run all the applications
 run_apps()
 {
-	echo "run_apps($DATE_TIME)"
+	echo "run_apps()"
 
 	# Run for all generators
 	for B in build_*
