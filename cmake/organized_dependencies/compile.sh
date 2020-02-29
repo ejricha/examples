@@ -21,7 +21,7 @@ DIRS="deps_full deps_less"
 SEARCH="[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}_[[:digit:]]{6}"
 
 # Debugging flags
-KEEP_LOGS=0   # Presere all .log files
+KEEP_LOGS=0   # Preserve all .log files
 FORCE_ERROR=0 # Produce an error sometimes
 
 # The main function
@@ -39,8 +39,7 @@ main()
 
 		change_random_libs_and_apps
 		build_random_libs_and_apps
-		run_all_apps
-		compare_outputs
+		run_and_compare_apps
 
 		# Sleep for at least a second
 		sleep 1
@@ -134,10 +133,10 @@ build_random_libs_and_apps()
 	done
 }
 
-# Run all the applications
-run_all_apps()
+# Run all the applications, and compare the output files
+run_and_compare_apps()
 {
-	echo "run_all_apps()"
+	echo "run_and_compare_apps()"
 
 	# Run for all generators
 	for B in build_*
@@ -147,7 +146,7 @@ run_all_apps()
 		mkdir -p $L
 
 		# Make sure every app produced identical results
-		#  for both types of depedency builds
+		#  for both types of dependency builds
 		for A in $APPS
 		do
 			for D in $DIRS
@@ -156,27 +155,17 @@ run_all_apps()
 				APP=${D}_${A}
 				$B/$APP > $L/$APP.log
 			done
-		done
-	done
-}
-
-# Check for differences in the output files
-compare_outputs() {
-	echo "compare_outputs()"
-
-	# Run for all generators
-	for B in build_*
-	do
-		# Use the following log file
-		L=$LOG/$B/$DATE_TIME
-
-		# Make sure every app produced identical results
-		#  for both types of depedency builds
-		for A in $APPS
-		do
+			
 			# If the files differed at all, show the diff and exit
 			check_diff $L $A
 		done
+
+		# Remove the logs unless we are keeping them
+		if [[ $KEEP_LOGS -eq 0 ]]
+		then
+			RUN rm -f $L/*.log
+			RUN rmdir $L
+		fi
 	done
 	echo "  (no differences)"
 }
@@ -188,26 +177,19 @@ check_diff() {
 
 	# First, create the diff file
 	DIFF=$L/${A}.diff
-	diff -u $L/*_${A}.log > $DIFF
+	diff -u $L/*_$A.log > $DIFF
 
 	# On a non-zero return code, show the diff and exit
 	RET=$?
 	if [[ $RET -ne 0 ]]
 	then
-		echo "ERROR: ${L} had differeces for ${A}:"
+		echo "ERROR: $L had differences for $A:"
 		cat $DIFF
 		exit $RET
 	fi
 
 	# Otherwise, clean up the diff file
 	RUN rm -f $DIFF
-
-	# Remove the logs unless we are keeping them
-	if [[ $KEEP_LOGS -eq 0 ]]
-	then
-		RUN rm -f $L/*.log
-		RUN rmdir $L
-	fi
 }
 
 # Call the main function
