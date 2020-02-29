@@ -32,10 +32,10 @@ main()
 	while true
 	do
 		DATE_TIME=`date +"%Y-%m-%d_%H%M%S"`
-		change_random_libs_and_apps $DATE_TIME
+		change_random_libs_and_apps
 		build_random_libs_and_apps
-		run_apps $DATE_TIME
-		check_for_differences $DATE_TIME
+		run_apps
+		check_for_differences
 
 		# Sleep for at least a second
 		sleep 1
@@ -73,26 +73,21 @@ clean_cmake()
 # Change a random selection of header files
 change_random_libs_and_apps()
 {
-	# The argument is the date/time
-	DATE_TIME=$1
 	echo "change_random_libs_and_apps($DATE_TIME)"
 
 	# Choose between 1 and 5 random files
 	R=$(($RANDOM % 5 + 1))
 	for F in `ls -1 include/*.hpp | sort -R | head -$R`
 	do
-		update_date_time $DATE_TIME $F
+		update_date_time $F
 	done
 }
 
 # Update the date/time in the given file
 update_date_time()
 {
-	# The first argument is the date/time
-	DATE_TIME=$1
-
-	# The second argument is the file
-	FILE=$2
+	# The argument is the file
+	FILE=$1
 
 	# Replace the string in the file
 	RUN sed -Ei "s/$SEARCH/$DATE_TIME/" $FILE
@@ -114,8 +109,6 @@ build_random_libs_and_apps()
 
 # Check for differences in the output files
 check_for_differences() {
-	# The argument is the date/time
-	DATE_TIME=$1
 	echo "check_for_differences($DATE_TIME)"
 
 	# Run for all generators
@@ -147,8 +140,6 @@ check_for_differences() {
 # Run all the applications
 run_apps()
 {
-	# The argument is the date/time
-	DATE_TIME=$1
 	echo "run_apps($DATE_TIME)"
 
 	# Run for all generators
