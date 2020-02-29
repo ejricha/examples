@@ -61,8 +61,9 @@ clean_cmake()
 		mkdir -p $B
 		cd $B
 
-		# Generate the CMake files
+		# Generate the CMake files, and compile all targets
 		RUN $CMAKE -G"$S" ..
+		RUN $CMAKE --build .
 	
 		# Produce graphs in the build dir
 		RUN ../$SCRIPTS/bash/graph_dependencies.sh
