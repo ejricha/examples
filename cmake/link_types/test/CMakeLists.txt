@@ -56,7 +56,7 @@ foreach(LinkA IN ITEMS Public Private Interface None)
 			if(NOT LinkB STREQUAL None)
 				message(STATUS "  App links only to B")
 				target_link_libraries(${TargetApp}
-					${LINKA} ${TargetB}
+					${LINKB} ${TargetB}
 					)
 				message(STATUS "  Lib links to B")
 				target_link_libraries(${TargetA}
