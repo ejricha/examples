@@ -69,13 +69,13 @@ foreach(LinkA IN ITEMS Public Private Interface None)
 		endif()
 
 		# Also add compile definitions
-		if(NOT LinkA STREQUAL None)
-			if(NOT LinkB STREQUAL None)
+		if(LinkA STREQUAL Public OR LinkA STREQUAL Private)
+			if(LinkA STREQUAL Public OR LinkB STREQUAL Public OR LinkB STREQUAL Private)
 				message(STATUS "  App prints from both A and B")
 				target_compile_definitions(${TargetApp}
 					PUBLIC PRINT_FROM_A
 					PUBLIC PRINT_FROM_B
-					)
+				)
 				message(STATUS "  Lib prints from B")
 				target_compile_definitions(${TargetA}
 					PUBLIC PRINT_FROM_B
@@ -87,20 +87,18 @@ foreach(LinkA IN ITEMS Public Private Interface None)
 					)
 				message(STATUS "  Lib prints from nothing")
 			endif()
+		elseif(LinkA STREQUAL Interface OR LinkB STREQUAL Public OR LinkB STREQUAL Private)
+			message(STATUS "  App prints only from B")
+			target_compile_definitions(${TargetApp}
+				PUBLIC PRINT_FROM_B
+				)
+			message(STATUS "  Lib prints from B")
+			target_compile_definitions(${TargetA}
+				PUBLIC PRINT_FROM_B
+				)
 		else()
-			if(NOT LinkB STREQUAL None)
-				message(STATUS "  App prints only from B")
-				target_compile_definitions(${TargetApp}
-					PUBLIC PRINT_FROM_B
-					)
-				message(STATUS "  Lib prints from B")
-				target_compile_definitions(${TargetA}
-					PUBLIC PRINT_FROM_B
-					)
-			else()
-				message(STATUS "  App prints from nothing")
-				message(STATUS "  Lib prints from nothing")
-			endif()
+			message(STATUS "  App prints from nothing")
+			message(STATUS "  Lib prints from nothing")
 		endif()
 	endforeach()
 endforeach()
