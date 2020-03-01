@@ -9,6 +9,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # All applications will end in .bin
 set(CMAKE_EXECUTABLE_SUFFIX .bin)
 
+# All libraries will have the same version
+set(LibrarySOVERSION 0)
+set(LibraryVERSION 0.2.0)
+
 # All source files are in src/,
 #  and header files are in include/
 set(SRC src)
@@ -28,7 +32,15 @@ function(AddStaticOrSharedLibrary target source index)
 	else()
 		set(TYPE STATIC)
 	endif()
+
+	# Actually add the library
 	add_library(${target} ${TYPE} ${source})
+
+	# Set the properties of the library
+	set_target_properties(${target} PROPERTIES
+		SOVERSION ${LibrarySOVERSION}
+		VERSION   ${LibraryVERSION}
+		)
 endfunction()
 
 # Build each app/lib twice
