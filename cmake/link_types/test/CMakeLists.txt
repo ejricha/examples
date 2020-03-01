@@ -11,8 +11,8 @@ include_directories(${INC})
 add_custom_target(${PROJECT_NAME})
 
 # Add apps/libraries from the same source code a number of ways
-foreach(LinkA IN ITEMS PUBLIC PRIVATE INTERFACE)
-	foreach(LinkB IN ITEMS PUBLIC PRIVATE INTERFACE)
+foreach(LinkA IN ITEMS Public Private Interface None)
+	foreach(LinkB IN ITEMS Public Private Interface None)
 		set(Type ${LinkA}A_${LinkB}B)
 		message(STATUS "Building ${Type}")
 
@@ -34,22 +34,74 @@ foreach(LinkA IN ITEMS PUBLIC PRIVATE INTERFACE)
 		string(TOUPPER ${LinkB} LINKB)
 	
 		# Set properties to each library
-		target_link_libraries(${TargetApp}
-			${LINKA} ${TargetA}
-			${LINKB} ${TargetB}
-			)
-		target_link_libraries(${TargetA}
-			${LINKB} ${TargetB}
-			)
+		if(NOT LinkA STREQUAL None)
+			if(NOT LinkB STREQUAL None)
+				message(STATUS "  App links to both A and B")
+				target_link_libraries(${TargetApp}
+					${LINKA} ${TargetA}
+					${LINKB} ${TargetB}
+					)
+				message(STATUS "  Lib links to B")
+				target_link_libraries(${TargetA}
+					${LINKB} ${TargetB}
+					)
+			else()
+				message(STATUS "  App links only to A")
+				target_link_libraries(${TargetApp}
+					${LINKA} ${TargetA}
+					)
+				message(STATUS "  Lib links to nothing")
+			endif()
+		else()
+			if(NOT LinkB STREQUAL None)
+				message(STATUS "  App links only to B")
+				target_link_libraries(${TargetApp}
+					${LINKA} ${TargetB}
+					)
+				message(STATUS "  Lib links to B")
+				target_link_libraries(${TargetA}
+					${LINKB} ${TargetB}
+					)
+			else()
+				message(STATUS "  App links to nothing")
+				message(STATUS "  Lib links to nothing")
+			endif()
+		endif()
 
 		# Also add compile definitions
-		target_compile_definitions(${TargetApp}
-			PUBLIC PRINT_FROM_A
-			PUBLIC PRINT_FROM_B
-			)
-		target_compile_definitions(${TargetA}
-			PUBLIC PRINT_FROM_B
-			)
+		if(NOT LinkA STREQUAL None)
+			if(NOT LinkB STREQUAL None)
+				message(STATUS "  App prints from both A and B")
+				target_compile_definitions(${TargetApp}
+					PUBLIC PRINT_FROM_A
+					PUBLIC PRINT_FROM_B
+					)
+				message(STATUS "  Lib prints from B")
+				target_compile_definitions(${TargetA}
+					PUBLIC PRINT_FROM_B
+					)
+			else()
+				message(STATUS "  App prints only from A")
+				target_compile_definitions(${TargetApp}
+					PUBLIC PRINT_FROM_A
+					)
+				message(STATUS "  Lib prints from nothing")
+			endif()
+		else()
+			if(NOT LinkB STREQUAL None)
+				message(STATUS "  App prints only from B")
+				target_compile_definitions(${TargetApp}
+					PUBLIC PRINT_FROM_B
+					)
+				message(STATUS "  Lib prints from B")
+				target_compile_definitions(${TargetA}
+					PUBLIC PRINT_FROM_B
+					)
+			else()
+				message(STATUS "  App prints from nothing")
+				message(STATUS "  Lib prints from nothing")
+			endif()
+		endif()
 	endforeach()
 endforeach()
 
