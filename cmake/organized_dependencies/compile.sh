@@ -16,8 +16,8 @@ GENERATOR[ninja]="Ninja"
 #CMAKE="/usr/local/bin/cmake" # CMake 3.17
 CMAKE="/usr/bin/cmake" # CMake 3.16
 LOG="$TOPDIR/log"
-APPS="a1.bin a2.bin a3.bin"
-DIRS="deps_full deps_less"
+APPS="A1.bin A2.bin A3.bin"
+DIRS="DepsFull DepsLess"
 SEARCH="[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}_[[:digit:]]{6}"
 
 # Debugging flags
@@ -110,10 +110,15 @@ build_random_libs_and_apps()
 	# Build in every directory
 	for B in build_*
 	do
-		# Choose between 1 and 5 random files (without the extension)
+		# Choose between 1 and 5 random files
 		R=$(($RANDOM % 5 + 1))
-		for F in `ls -1 include/ | sort -R | head -$R | sed -E "s/\.hpp$//g"`
+		for F in `ls -1 include/ | sort -R | head -$R`
 		do
+			# Get the basename of the target by
+			#  stripping off .hpp and making uppercase
+			T1=${F%%.hpp}
+			T=${T1^^}
+			echo "  $T"
 			for D in $DIRS
 			do
 				# If we are intentionally erroring, skip 5% of builds
@@ -122,12 +127,8 @@ build_random_libs_and_apps()
 					continue
 				fi
 
-				# Set the target to build
-				T=${D}_${F}
-				echo "  $T"
-
 				# Actually build the specified target
-				RUN $CMAKE --build $B --target $T
+				RUN $CMAKE --build $B --target $D$T
 			done
 		done
 	done
@@ -152,7 +153,7 @@ run_and_compare_apps()
 			for D in $DIRS
 			do
 				# Capture the output of the application
-				APP=${D}_${A}
+				APP=${D}${A}
 				$B/$APP > $L/$APP.log
 			done
 			
@@ -177,7 +178,7 @@ check_diff() {
 
 	# First, create the diff file
 	DIFF=$L/${A}.diff
-	diff -u $L/*_$A.log > $DIFF
+	diff -u $L/*$A.log > $DIFF
 
 	# On a non-zero return code, show the diff and exit
 	RET=$?
