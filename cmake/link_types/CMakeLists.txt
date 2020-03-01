@@ -9,5 +9,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # All applications will end in .bin
 set(CMAKE_EXECUTABLE_SUFFIX .bin)
 
-# Build the src/ directory
-add_subdirectory(src)
+# Build the different source directories
+add_subdirectory(show)
+add_subdirectory(test)

@@ -1,3 +1,6 @@
+# Set the project name
+project(ShowLinkTypes LANGUAGES CXX)
+
 # Application with no source code
 add_executable(App app.cpp)
 

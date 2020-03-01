@@ -40,6 +40,9 @@ clean_cmake()
 
 		# Generate the CMake files
 		RUN $CMAKE -G"$S" ..
+		
+		# Build only the TestLink target
+		RUN $CMAKE --build . --target TestLink
 
 		# Produce graphs in the build dir
 		RUN ../$SCRIPTS/bash/graph_dependencies.sh
