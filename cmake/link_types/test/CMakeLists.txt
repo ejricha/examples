@@ -41,6 +41,15 @@ foreach(LinkA IN ITEMS PUBLIC PRIVATE INTERFACE)
 		target_link_libraries(${TargetA}
 			${LINKB} ${TargetB}
 			)
+
+		# Also add compile definitions
+		target_compile_definitions(${TargetApp}
+			PUBLIC PRINT_FROM_A
+			PUBLIC PRINT_FROM_B
+			)
+		target_compile_definitions(${TargetA}
+			PUBLIC PRINT_FROM_B
+			)
 	endforeach()
 endforeach()
 
