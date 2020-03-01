@@ -65,6 +65,10 @@ foreach(X DepsFull DepsLess)
 	AddStaticOrSharedLibrary(${X}E2 ${SRC}/e2.cpp 12)
 	AddStaticOrSharedLibrary(${X}E3 ${SRC}/e3.cpp 13)
 	AddStaticOrSharedLibrary(${X}E4 ${SRC}/e4.cpp 14)
+
+	# Phony target that depends on all the applications
+	add_custom_target(${X})
+	add_dependencies(${X} ${X}A1 ${X}A2 ${X}A3)
 endforeach()
 
 # Only PUBLIC linking works with the random
