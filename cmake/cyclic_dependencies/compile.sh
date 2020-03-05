@@ -10,7 +10,7 @@ source $SCRIPTS/bash/common.sh
 # Try both static and shared libraries
 for SHARED in OFF ON
 do
-	B="build_ninja_shared_${SHARED}"
+	B="build_make_shared_${SHARED}"
 	echo "[$B]"
 	
 	# Create and enter the build directory
