@@ -22,7 +22,7 @@ include_directories(${INC})
 # Add the library as static or shared,
 #  but make sure both DepsFull and DepsLess
 #  are building each library the same way
-string(RANDOM LENGTH 20 ALPHABET "01" R)
+string(RANDOM LENGTH 20 ALPHABET "1" R)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 function(AddStaticOrSharedLibrary target source index)
 	# Determine the type of library to build
